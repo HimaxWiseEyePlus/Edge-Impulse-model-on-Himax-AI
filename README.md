@@ -125,7 +125,7 @@ Follow the remaining steps from
 Himax AI toolkit is a developer's toolkit to inference and run embedded Machine Learning(ML) models.
 
 - Disconnect the uart at your `Tera Term` or `Minicom` first.
-- Download the [Himax AI web toolkit](https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2/releases/download/v1.1/Himax_AI_web_toolkit.zip) and extract the contents
+- Download the [Himax AI web toolkit](https://github.com/HimaxWiseEyePlus/Edge-Impulse-model-on-Himax-AI/blob/main/Himax_AI_web_toolkit.zip) and extract the contents
 - Launch the GUI by running the `index.html` file.
 - Please check you select `Grove Vision AI(V2)` and press `Connect` button
 ![Screenshot from 2024-04-02 13-11-40](https://github.com/HimaxWiseEyePlus/Edge-Impulse-model-on-Himax-AI/assets/162244304/d7445866-515a-4100-8670-436abde5324c)
