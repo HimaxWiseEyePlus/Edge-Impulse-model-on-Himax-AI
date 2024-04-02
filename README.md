@@ -88,6 +88,19 @@ In our case, 219 photos of both classes were captured and labelled. A ratio of 8
 
 Building firmware and flash the image for our object detection model onto the Grove Vision AI v2 will be heavily inspired and referenced from one of our other repositories, [Seeed_Grove_Vision_AI_Module_V2](https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2).
 
+To clone the repository in the directory of your choice:
+```
+git clone https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2.git
+```
+Now we'll copy files from this repository in the Seed_Grove_Vision_AI_Module_V2 folder
+
+```
+cd EPII_CM55M_APP_S
+cp -r [location of Edge-Impulse-model-on-Himax-AI]/updated_files/tflm_yolov5_od_ei ./app/scenario_app/
+cp -r [location of Edge-Impulse-model-on-Himax-AI]/updated_files/main.c ./app/
+cp -r [location of Edge-Impulse-model-on-Himax-AI]/updated_files/spi_protocol.h ./library/spi_ptl/
+```
+
 You can build your own scenario_app or modify one of our existing applications to build firmware for custom applications. (https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2/tree/main/EPII_CM55M_APP_S/app/scenario_app). To run the build the firmware for the Edge Impulse YOLOv5 model, we have made an `APP_TYPE` called `ei_yolov5_od`.
 
 - To run this scenario_app, change the `APP_TYPE` to `ei_yolov5_od`.
