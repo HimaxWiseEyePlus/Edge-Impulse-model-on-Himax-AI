@@ -1,5 +1,5 @@
 # Deploy custom trained Edge Impulse models on Himax-AI web toolkit
-- This repository explains how to train a custom Machine learning model on Edge Impulse platform and deploy the same model on Grove Vision AI V2 using Himax AI platform.
+- This repository explains how to train a custom Machine learning model on Edge Impulse studio and deploy it on Grove Vision AI V2 using Himax AI developer toolkit.
 - To run evaluations using this software, we suggest using Ubuntu 20.04 LTS environment and Google Chrome as your primary.
 
 ### The repository will follow the process:
@@ -25,14 +25,14 @@ Here we will be utilizing Edge Impulse's data acquisition feature to collect dat
 
 ![Screenshot from 2024-04-01 11-10-51](https://github.com/HimaxWiseEyePlus/Edge-Impulse-model-on-Himax-AI/assets/162244304/1099e569-2a89-49d8-b44a-cb71aec57952)
 
-In our case, 219 photos of both classes were captured and labelled. A ratio of 82%/18% was used for training and test respectively.
+In our case, 219 photos of both classes were captured and labelled. A ratio of 82%/18% was used for training and testing respectively.
 
 - Step 4: Train the object detection model
 
   - Designing an impulse:
-    An impulse is a pipeline used to define the model training flow. It takes in the images, performs feature engineering and uses a learning block to perform the desired task. A comprehensive understanding and other applications can be found [here](https://www.youtube.com/watch?v=o8UG1TJXuwk)
+    An impulse is a pipeline used to define the model training flow. It takes in the images, performs feature engineering and uses a learning block to perform the desired task. For greater detail and other applications can be found [here](https://www.youtube.com/watch?v=o8UG1TJXuwk)
 
-    Starting off with our from the dataset collected. We will resize them to 160x160 pixels. This will be the input to our Transfer Learning block.
+    Starting off with the dataset we collected. We will resize them to 160x160 pixels. This will be the input to our Transfer Learning block.
 
     ![Screenshot from 2024-04-01 15-40-34](https://github.com/HimaxWiseEyePlus/Edge-Impulse-model-on-Himax-AI/assets/162244304/4313104a-06c2-4269-a8a2-f3247bf4c243)
 
@@ -42,7 +42,7 @@ In our case, 219 photos of both classes were captured and labelled. A ratio of 8
     ![Screenshot from 2024-04-01 15-49-23](https://github.com/HimaxWiseEyePlus/Edge-Impulse-model-on-Himax-AI/assets/162244304/e0092b2d-dd74-4f28-8198-c67e6c031f96)
 
   - Training model
-    Edge Impulse studio has the support to train multiple model architectures such as MobileNetV1, YoloV5 or YoloX. Alternatively, a user can even 'bring their own model'. For this tutorial, we trained a YoloV5 based on Ultralytics YOLOv5 which supports RGB input at any resolution(square images only).
+    Edge Impulse studio has the support to train multiple model architectures such as MobileNetV1, YOLOv5 or YOLOX. Alternatively, a user can even 'bring their own model'. For this tutorial, we trained a YOLOv5 based on Ultralytics YOLOv5 which supports RGB input at any resolution(square images only).
 
     Hyperparameters are as follows:
 
@@ -56,7 +56,7 @@ In our case, 219 photos of both classes were captured and labelled. A ratio of 8
 
     Once the model is trained, it can be downloaded from the dashboard. In order to be accelerated by the Ethos-U NPU the network operators must be quantised to either 8-bit (unsigned or signed) or 16-bit (signed).
     
-    ![Screenshot from 2024-04-01 16-28-43](https://github.com/HimaxWiseEyePlus/Edge-Impulse-model-on-Himax-AI/assets/162244304/1bc5d71a-e06f-4877-b758-bbcb234b809d)
+    ![Screenshot from 2024-04-08 13-04-12](https://github.com/HimaxWiseEyePlus/Edge-Impulse-model-on-Himax-AI/assets/162244304/a4c22787-68f1-4d3f-bb07-3da7a51eb8b3)
 
 ## Model conversion to vela
 
@@ -86,9 +86,9 @@ In our case, 219 photos of both classes were captured and labelled. A ratio of 8
   where `cls...` represents the class probabilities. In our case we have two classes.
 ## scenario_app post processing
 
-Building firmware and flash the image for our object detection model onto the Grove Vision AI v2 will be heavily inspired and referenced from one of our other repositories, [Seeed_Grove_Vision_AI_Module_V2](https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2).
+Building firmware and flash the image for our object detection model onto the Grove Vision AI v2 will be heavily inspired and referenced from [Seeed_Grove_Vision_AI_Module_V2](https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2).
 
-To clone the repository in the directory of your choice:
+To clone the repository in the directory of your choice using:
 ```
 git clone https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2.git
 ```
@@ -101,11 +101,11 @@ cp -r [location of Edge-Impulse-model-on-Himax-AI]/updated_files/main.c ./app/
 cp -r [location of Edge-Impulse-model-on-Himax-AI]/updated_files/spi_protocol.h ./library/spi_ptl/
 ```
 
-You can build your own scenario_app or modify one of our existing applications to build firmware for custom applications. (https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2/tree/main/EPII_CM55M_APP_S/app/scenario_app). To run the build the firmware for the Edge Impulse YOLOv5 model, we have made an `APP_TYPE` called `ei_yolov5_od`.
+You can build your own [scenario_app](https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2/tree/main/EPII_CM55M_APP_S/app/scenario_app) or modify one of our existing applications to build firmware for custom applications. . To run the build the firmware for the Edge Impulse YOLOv5 model, we have made an `APP_TYPE` called `tflm_yolov5_od_ei`.
 
-- To run this scenario_app, change the `APP_TYPE` to `ei_yolov5_od`.
+- To run this scenario_app, change the `APP_TYPE` to `tflm_yolov5_od_ei` in the `makefile`.
   ```
-  APP_TYPE = ei_yolov5_od
+  APP_TYPE = tflm_yolov5_od_ei
   ```
 - Build the firmware reference the part of [Build the firmware at Linux environment](https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2?tab=readme-ov-file#build-the-firmware-at-linux-environment)
 - Connect Grove Vision AI v2 to your computer.
@@ -123,16 +123,14 @@ You can build your own scenario_app or modify one of our existing applications t
     - baudrate: 921600
     - file: your firmware image [maximum size is 1MB]
     - model: you can burn multiple models `[model tflite] [position of model on flash] [offset]`
-      - Position of model on flash is defined at [~/tflm_fd_fm/common_config.h](https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2/blob/main/EPII_CM55M_APP_S/app/scenario_app/tflm_fd_fm/common_config.h#L18)
+      - Position of model on flash is defined at [~/tflm_yolov5_od_ei/common_config.h](https://github.com/HimaxWiseEyePlus/Seeed_Grove_Vision_AI_Module_V2/blob/main/EPII_CM55M_APP_S/app/scenario_app/tflm_yolov5_od_ei/common_config.h#L18)
     ```
-    python3 xmodem/xmodem_send.py --port=[your COM number] --baudrate=921600 --protocol=xmodem --file=we2_image_gen_local/output_case1_sec_wlcsp/output.img --model="model_zoo/tflm_fd_fm/0_fd_0x200000.tflite 0x200000 0x00000" --model="model_zoo/tflm_fd_fm/1_fm_0x280000.tflite 0x280000 0x00000"  --model="model_zoo/tflm_fd_fm/2_il_0x32A000.tflite 0x32A000 0x00000"
+    python3 xmodem/xmodem_send.py --port=[your COM number] --baudrate=921600 --protocol=xmodem --file=we2_image_gen_local/output_case1_sec_wlcsp/output.img --model="model_zoo/tflm_yolov5_od_ei/ei-mouse-vs-cup-object-detection-int8-yolov5-160x160_vela.tflite 0xB7B000 0x00000"
     ```
+    Note: Make sure you create a directory named model_zoo/tflm_yolov5_od_ei and place your vela model inside it.
     - It will start to burn firmware image and model automatically.
-  -  Press `reset` buttun on `Seeed Grove Vision AI Module V2` and it will success to run the algorithm.
+  -  Press `reset` button on the `Seeed Grove Vision AI Module V2` and it should successfully run the model.
 
-#### Note: Position of the model should be the same as the one assigned in `common_config.h`
-
-Follow the remaining steps from 
 ## Running on Himax AI toolkit
 
 Himax AI toolkit is a developer's toolkit to inference and run embedded Machine Learning(ML) models.
@@ -143,4 +141,4 @@ Himax AI toolkit is a developer's toolkit to inference and run embedded Machine 
 - Please check you select `Grove Vision AI(V2)` and press `Connect` button
 ![Screenshot from 2024-04-02 13-11-40](https://github.com/HimaxWiseEyePlus/Edge-Impulse-model-on-Himax-AI/assets/162244304/d7445866-515a-4100-8670-436abde5324c)
 
-Note: To display your own classes, one just needs to change the class names. For example, ["mouse","cup"] to ["motorcycle","person","bottle"].
+Note: To display your own classes, one just needs to change the class names. For example, ["mouse","cup"] to ["motorcycle","person","bottle"] in `index-legacy.77bc29bc.js`
